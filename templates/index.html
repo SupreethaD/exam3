@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz3</title>
+</head>
+
+<body>
+    <h1>Quiz - 3</h1>
+    <h2>Supreetha Darbha</h2>
+    <h2>1002035242</h2>
+    <hr>
+
+    <!-- without cache -->
+    <!-- 1st query -->
+    <h3><u>Without cache</u></h3>
+    <h4>5a) all volcanoes within that range (name, country, region, lat,long, elevation):</h4>
+    <form action="/range">
+        <label for="">
+            Enter Elevation1: <input type="number" name="ele1" required>
+            Enter Elevation2: <input type="number" name="ele2" required>
+        </label><br>
+        <label for="">
+            Enter Volcano Range1<input type="number" name="vol1" required>
+            Enter Volcano Range2<input type="number" name="vol2" required>
+        </label>
+        <input type="submit" Value="Submit">
+    </form>
+    <hr>
+    
+    <h4>6a) Allow a user to give a sequence number (in vindex table) range, and for all volcanoes in that range,
+        list (similar to previous question).</h4>
+    <form action="/sequenceRange">
+        <label for="">
+            Enter sequence Range1: <input type="number" name="range1" required>
+            Enter sequence Range2: <input type="number" name="range2" required>
+        </label><br>
+        <input type="submit" Value="Submit">
+    </form>
+    <hr>
+
+    <h4>6b) Allow a user to give a number N (for example 5), and randomly select N of those volcanoes selected by part (a),
+        and list.</h4>
+    <form action="/sequenceRange2">
+        <label for="">
+            Enter Number: <input type="number" name="srangeval" required>
+        </label><br>
+        <input type="submit" Value="Submit">
+    </form>
+    <hr>
+
+    <h4>7) A user will give you the number of times to do the "query", you will do both of the previous questions that
+        number of times
+        and show the results as well as the total time taken. :</h4>
+    <form action="/query7witoutcache">
+        <label for="">
+            Enter no of times to do query<input type="number" min="1" max="1000" name="numberfield1" required>
+        </label>
+        <input type="submit" Value="Submit">
+    </form>
+    <hr>
+
+    <h3><u>With cache(Redis)</u></h3>
+    <!-- 1st Query -->
+    <h4>8) Repeat the previous question using (in addition to the database) an in-memory caching mechanism
+        (NOT an in-memory database) then show us:</h4>
+    <form action="/query8withcache">
+        <label for="">
+            <input type="number" min="1" max="1000" name="numberfield1" required>
+        </label>
+        <input type="submit" Value="Submit">
+    </form>
+    <hr>
+
+</body>
+
+</html>
