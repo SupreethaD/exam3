@@ -15,7 +15,7 @@ server = 'assignment01.database.windows.net'
 database = 'assignment01'
 username = 'supreetha'
 password = 'Chuppi$123'
-driver= '{ODBC Driver 17 for SQL Server}'
+driver= '{ODBC Driver 13 for SQL Server}'
 cnxn = pyodbc.connect('DRIVER=' + driver + ';SERVER=' + server + ';PORT=1433;DATABASE=' + database + ';UID=' + username + ';PWD=' + password)
 cursor = cnxn.cursor()
 r = redis.StrictRedis(host='assignment01.redis.cache.windows.net',port=6380, db=0, password='O8IrxXBklv50PJZ3IS9kefYiac3naKdqrAzCaCHdmP0=', ssl=True)
@@ -29,7 +29,7 @@ def home():
     return render_template('index.html')
 
 
-#query5a without cache
+#query10
 @app.route('/range')
 def range_query():
     elevation1 = str(request.args.get('ele1'))
@@ -37,31 +37,36 @@ def range_query():
     volrange1 = str(request.args.get('vol1'))
     volrange2 = str(request.args.get('vol2'))
 
-    cursor.execute("SELECT volcano_name, country, region, latitude, longitude, elev FROM v WHERE number >= "+volrange1+" and number <= "+volrange2+" and elev >= "+elevation1+" and elev <= "+elevation2+"; ")
+    cursor.execute("SELECT volcano_name, country, region, latitude, longitude, elev FROM volcano WHERE number >= "+volrange1+" and number <= "+volrange2+" and elev >= "+elevation1+" and elev <= "+elevation2+"; ")
     output = cursor.fetchall()
-    cursor.execute("SELECT avg(elev) FROM v WHERE number >= "+volrange1+" and number <= "+volrange2+" and elev >= "+elevation1+" and elev <= "+elevation2+" group by elev; ")
-    
+    cursor.execute("SELECT min(elev) FROM volcano WHERE number >= "+volrange1+" and number <= "+volrange2+" and elev >= "+elevation1+" and elev <= "+elevation2+" ; ") 
     result = cursor.fetchall()
     for i in result:
         result = i[0]
-    return render_template('range.html', output = output, result = result) 
+    cursor.execute("SELECT max(elev) FROM volcano WHERE number >= "+volrange1+" and number <= "+volrange2+" and elev >= "+elevation1+" and elev <= "+elevation2+" ; ")
+    result2 = cursor.fetchall()
+    for j in result2:
+        result2 = j[0]
+    return render_template('range.html', output = output, result = result, result2 =result2) 
 
 
-#query 6a
+#query 11
 @app.route("/sequenceRange" , methods=['GET','POST'])
 def seqrange():
     seqrange1 = str(request.args.get('range1'))
     seqrange2 = str(request.args.get('range2'))
-    cursor.execute("select volcano_name, country, region, latitude, longitude, elev from v where number in (select number from vindex where sequence >= "+seqrange1+" and Sequence <= "+seqrange2+");")
+    starttime = timeit.default_timer()
+    cursor.execute("select volcano_name, country, region, latitude, longitude, elev from volcano where number in (select number from volcanoindex where sequence >= "+seqrange1+" and sequence <= "+seqrange2+");")
     rangevalues = cursor.fetchall()
-    return render_template('sequenceRange.html', rangeresult = rangevalues)
+    timee = timeit.default_timer() - starttime
+    return render_template('sequenceRange.html', rangeresult = rangevalues, timeelapsed = timee)
 
-#query 6b
+#query 11b
 @app.route("/sequenceRange2" , methods=['GET','POST'])
 def sequencerangequery2():
  getrangeval = str(request.args.get('srangeval'))
  starttime = timeit.default_timer()
- cursor.execute("select top "+getrangeval+" volcano_Name, country, region, latitude, longitude, elev from v order by number desc;")
+ cursor.execute("select top "+getrangeval+" volcano_Name, country, region, latitude, longitude, elev from volcano order by number desc;")
  rangeresult = cursor.fetchall()
  time_elapsed = timeit.default_timer() - starttime
  return render_template('sequenceRange2.html', rangeoutputval=rangeresult, timeelapsed = time_elapsed)
