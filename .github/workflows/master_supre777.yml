@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'SUPRE777'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A2B963AAFF3A428CB4A1FB39EE7DE7F3 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2A145689C5264EB0B400030A1711D0B6 }}
