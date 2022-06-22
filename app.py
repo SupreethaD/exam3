@@ -15,7 +15,7 @@ server = 'assignment01.database.windows.net'
 database = 'assignment01'
 username = 'supreetha'
 password = 'Chuppi$123'
-driver= '{ODBC Driver 13 for SQL Server}'
+driver= '{ODBC Driver 17 for SQL Server}'
 cnxn = pyodbc.connect('DRIVER=' + driver + ';SERVER=' + server + ';PORT=1433;DATABASE=' + database + ';UID=' + username + ';PWD=' + password)
 cursor = cnxn.cursor()
 r = redis.StrictRedis(host='assignment01.redis.cache.windows.net',port=6380, db=0, password='O8IrxXBklv50PJZ3IS9kefYiac3naKdqrAzCaCHdmP0=', ssl=True)
@@ -71,31 +71,23 @@ def sequencerangequery2():
  time_elapsed = timeit.default_timer() - starttime
  return render_template('sequenceRange2.html', rangeoutputval=rangeresult, timeelapsed = time_elapsed)
 
-#query7 without cache
+#query 12
 @app.route('/query7witoutcache')
 def query7_withoutcache():
     inputnumber = str(request.args.get('numberfield1'))
 
-    startrange = '100'
-    endrange = '100000'
-    startelevation = '100'
-    endelevation = '100000'
     starttime = time()
     for z in range(int(inputnumber)):
-        cursor.execute("SELECT volcano_name, country, region, latitude, longitude, elev FROM v WHERE number >= "+startrange+" and number <= "+endrange+" and elev >= "+startelevation+" and elev <= "+endelevation+"; ")
-        output = cursor.fetchall() 
-        cursor.execute("SELECT avg(elev) FROM v WHERE number >= "+startrange+" and number <= "+endrange+" and elev >= "+startelevation+" and elev <= "+endelevation+" group by elev; ")
-        output11 = cursor.fetchall()
-        cursor.execute("select volcano_name, country, region, latitude, longitude, elev from v where number in (select number from vindex where sequence >= 1000 and Sequence <= 1500);")
+        cursor.execute("select volcano_name, country, region, latitude, longitude, elev from volcano where number in (select number from volcanoindex where sequence >= 1000 and Sequence <= 1500);")
         rangevalues = cursor.fetchall()
-        cursor.execute("select top 5 volcano_Name, country, region, latitude, longitude, elev from v order by number desc;")
+        cursor.execute("select top 5 volcano_Name, country, region, latitude, longitude, elev from volcano order by number desc;")
         rangeresult = cursor.fetchall()
 
     endtime = time()
     totaltime = endtime - starttime
     return render_template('query7witoutcache.html', timetaken = totaltime) 
 
-#query8 with cache
+#query 13
 @app.route('/query8withcache')
 def query2withcache():
     randcachenum = str(request.args.get('numberfield1'))
