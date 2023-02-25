@@ -12,13 +12,13 @@ from time import time
 ### PYODBC CONNECTIVITY ####
 ############################
 server = 'assignment01.database.windows.net'
-database = 'assignment01'
-username = 'supreetha'
-password = 'Chuppi$123'
-driver= '{ODBC Driver 17 for SQL Server}'
+database = ''
+username = ''
+password = ''
+driver= '{ODBC Driver 13 for SQL Server}'
 cnxn = pyodbc.connect('DRIVER=' + driver + ';SERVER=' + server + ';PORT=1433;DATABASE=' + database + ';UID=' + username + ';PWD=' + password)
 cursor = cnxn.cursor()
-r = redis.StrictRedis(host='assignment01.redis.cache.windows.net',port=6380, db=0, password='O8IrxXBklv50PJZ3IS9kefYiac3naKdqrAzCaCHdmP0=', ssl=True)
+r = redis.StrictRedis(host='assignment01.redis.cache.windows.net',port=6380, db=0, password='', ssl=True)
 result = r.ping()
 print("Ping returned : " + str(result))
 
@@ -101,7 +101,7 @@ def query2withcache():
     redis2 = 'redis_cache2:' + hash2
     startcount = time()
     
-    for qry in range(int(randcachenum)):
+    for qry in range(1000):
         if(r.get(redis1) and r.get(redis2)):
             print("CACHING REDIS")
         else:

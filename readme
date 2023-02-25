@@ -1,0 +1,17 @@
+For privacy purposes, the database username/password is removed.
+
+1) query 10
+ Using the volcano table (v), Using a web interface (web page) allow a user to give a range of Elev as well as range of volcano Numbers (first column) and you will show:
+     (a) all volcanoes within that range (name, country, region, lat,long, elevation).
+     (b) also show the minimum and maximum elevations for all those in that range
+
+2) query 11
+(a) Allow a user to give a sequence number (in vindex table) range, and for all volcanoes in that range, list (similar to previous question).
+(b) Allow a user to give a number N (for example 5), and randomly select N of those volcanoes selected by part (a), and list.
+     Please show the time to do each of those queries.
+
+3) query 12
+For the previous question (11) allow a user to give you the number of times to do the "query", then you will do both of the previous parts that number of times and show the results as well as the total time taken.
+
+4) query 13
+Repeat the previous question using (in addition to the database) an in-memory caching mechanism (NOT an in-memory database) then show us.
